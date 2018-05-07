@@ -1,0 +1,17 @@
+<div class="container">
+
+  <form class="formulario" (ngSubmit)="onSubmit()" [formGroup]="categoriaForm">
+      
+        <mat-form-field>
+            <input matInput #input formControlName="id" placeholder="id" [ngModel]="id">
+        </mat-form-field>
+    
+      
+      <mat-form-field>
+          <input matInput #input formControlName="descripcion" placeholder="descripcion" [ngModel]="descripcion">
+      </mat-form-field>
+
+
+    <button type="submit" class="button-custom">Submit</button>
+  </form>
+</div>

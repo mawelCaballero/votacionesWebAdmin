@@ -1,0 +1,74 @@
+<div class="container mat-elevation-z8">
+
+    <div flex>
+      <h1 class="title">Votantes</h1>
+    </div>
+    
+    
+    <div flex>
+        <button class="button-custom" (click)="createNewMuestra()">Crear Votante</button>
+    </div>  
+    
+    <div flex>
+  
+        <mat-table #table [dataSource]="votantes" matSort>
+    
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> ID. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+        
+            <!-- Name Column -->
+            <ng-container matColumnDef="user">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> User </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.user}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="descripcion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.descripcion}} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="voto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Voto </mat-header-cell>
+              <mat-cell  *matCellDef="let element" > 
+                  {{element.voto}}
+              </mat-cell>
+            </ng-container>
+
+  
+            <ng-container matColumnDef="tipo_votante">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+                <mat-cell  *matCellDef="let element" > 
+                    {{element.tipo_votante}}
+                </mat-cell>
+              </ng-container>
+              
+            <ng-container matColumnDef="detalle">
+                <mat-header-cell *matHeaderCellDef> Detalle </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                  <button class="button-custom" (click)="sendEmail(element)">Invitacion Mail</button>
+                  <button class="button-custom" (click)="detail(element._id)">Detalle</button> 
+                  <button class="button-custom" (click)="deleteVotante(element._id)">borrar</button> 
+                </mat-cell>
+            </ng-container>
+        
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <mat-paginator #paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true">
+          </mat-paginator>
+    </div>
+    
+  
+      
+    </div>

@@ -1,0 +1,48 @@
+<div class="container">
+
+  <form class="formulario" (ngSubmit)="onSubmit()" [formGroup]="muestraForm">
+
+      <ng-container *ngIf="img">
+          <img [src]="img" style="width:150px; height:150px;float:left;border-radius:50%;margin-right:25px;margin-left:10px;"/>
+      </ng-container>
+        
+      
+        <mat-form-field>
+            <input matInput #input formControlName="id" placeholder="id" [ngModel]="id">
+        </mat-form-field>
+    
+      
+        <mat-form-field>
+          <input matInput #input formControlName="descripcion" placeholder="descripcion" [ngModel]="descripcion">
+        </mat-form-field>
+
+
+        <mat-form-field>
+          <mat-select [compareWith]="compareWithFn" placeholder="categoria" formControlName="categoria" [(ngModel)]="categoria">
+              <mat-option *ngFor="let currentCat of categorias"  [value]="currentCat">{{currentCat.descripcion}}</mat-option>
+           </mat-select>
+          
+        </mat-form-field>
+
+            <mat-form-field>
+                <mat-select  [compareWith]="compareWithFn" placeholder="indicadores" formControlName="indicadores" multiple [(ngModel)]="indicadoresSelected" >
+                  <mat-option *ngFor="let currentIndicador of indicadores" [value]="currentIndicador">{{currentIndicador.descripcion}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        
+        
+        
+    <button type="submit" class="button-custom">Submit</button>
+  </form>
+
+ 
+
+  <ng-container *ngIf="_id">
+      <div>
+          <mat-icon matSuffix>folder</mat-icon>
+          <input #input id="md-input-file" type="file" [attr.multiple]="multiple? '' : null" (change)="uploadFile($event)">
+          <span class="filename">{{fileNames}}</span>
+      </div>
+  </ng-container>
+  
+</div>

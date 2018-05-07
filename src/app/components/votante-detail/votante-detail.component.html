@@ -1,0 +1,53 @@
+<div class="container">
+
+    <form class="formulario" (ngSubmit)="onSubmit()" [formGroup]="votanteForm">
+  
+        
+          <mat-form-field>
+              <input matInput #input formControlName="id" placeholder="id" [ngModel]="id">
+          </mat-form-field>
+      
+          <mat-form-field>
+              <input matInput #input formControlName="user" placeholder="user" [ngModel]="user">
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput #input formControlName="pass" placeholder="pass" [ngModel]="pass">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput #input formControlName="email" placeholder="emmail" [ngModel]="email">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput #input formControlName="descripcion" placeholder="descripcion" [ngModel]="descripcion">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select [compareWith]="compareWithFn"  placeholder="tipo_votante" formControlName="tipo_votante" [(ngModel)]="tipo_votante">
+                <mat-option *ngFor="let currentTipo of tipos"  [value]="currentTipo">{{currentTipo.descripcion}}</mat-option>
+             </mat-select>
+            
+          </mat-form-field>
+  
+          <ng-container *ngIf="muestrasSelected && muestrasSelected.length > 0">
+              <mat-form-field>
+                  <mat-select  [compareWith]="compareWithFn" placeholder="muestras" formControlName="muestras" multiple [(ngModel)]="muestrasSelected" >
+                    <mat-option *ngFor="let currentMuestra of muestras" [value]="currentMuestra">{{currentMuestra.descripcion}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </ng-container>
+          
+          <ng-container *ngIf="!muestrasSelected">
+              <mat-form-field>
+                  <mat-select  placeholder="muestras" formControlName="muestras" multiple>
+                    <mat-option *ngFor="let currentMuestra of muestras" [value]="currentMuestra">{{currentMuestra.descripcion}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </ng-container>
+          
+          
+      <button type="submit" class="button-custom">Submit</button>
+    </form>
+  
+  </div>

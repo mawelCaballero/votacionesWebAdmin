@@ -1,0 +1,34 @@
+
+  <mat-toolbar class="header">Weedkend Administrator</mat-toolbar>
+
+  <mat-drawer-container class="container">
+      <mat-drawer mode="side" opened="true">
+          <mat-nav-list class="sidenav">
+               <mat-list-item>
+                  <a routerLink="/categoriasMuestra" routerLinkActive="active">Categorias Muestra</a>
+               </mat-list-item>
+               <mat-list-item>
+                  <a routerLink="/categoriasVotante" routerLinkActive="active">Categorias Votante</a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a routerLink="/indicadores" routerLinkActive="active">Indicadores</a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a routerLink="/muestras" routerLinkActive="active">Muestras</a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a routerLink="/votantes" routerLinkActive="active">Votantes</a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a routerLink="/votos" routerLinkActive="active">Votos</a>
+              </mat-list-item>
+              <mat-list-item>
+                    <a routerLink="/logout" routerLinkActive="active">Logout</a>
+                </mat-list-item>
+            </mat-nav-list>
+      </mat-drawer>
+      <mat-drawer-content>
+          <router-outlet></router-outlet>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  <mat-toolbar class="footer">Administracion weedkend App Voting 18</mat-toolbar>
