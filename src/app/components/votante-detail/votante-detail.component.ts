@@ -125,7 +125,7 @@ export class VotanteDetailComponent implements OnInit {
           'descripcion': this.votanteForm.value.descripcion,
           'tipo_votante': !_.isNil(this.votanteForm.value.tipo_votante)  && !_.isEmpty(this.votanteForm.value.tipo_votante) ?
            this.votanteForm.value.tipo_votante : this.tipo_votante,
-          'muestras': this.votanteForm.value.muestras
+          'muestras': this.transformMuestrasToCode(this.votanteForm.value.muestras)
           }
         ).subscribe( response => {
           this.growlService.addInfo({heading: 'Info.', message: 'El votante se ha modificado de forma correcta'});

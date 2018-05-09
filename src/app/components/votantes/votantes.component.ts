@@ -59,7 +59,7 @@ export class VotantesComponent implements OnInit {
          '<p>Recuerda que solo puedes votar una única vez.</p> ' +
          '<p><ul><li>User: ' + row.user + '</li>' +
          '<li>Password: ' + row.pass + '</li></ul></p>'  ,
-          'to': 'info@mawel.name',
+          'to': row.email ,
           'subject': 'Weedkend invitacion'}).subscribe(
             response => {
               this.growlService.addSuccess('Se ha enviado la invitacion de forma correcta');
