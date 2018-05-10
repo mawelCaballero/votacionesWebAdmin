@@ -12,7 +12,7 @@ export class VotosService  {
 
   getItems(): Observable<Voto[]> {
 
-    return this.http.get(config.url + 'votos',
+    return this.http.get(config.url + 'voto',
     { headers : this.getHeaders()}).map(
       response => {
         return this.bindVotos(response);
@@ -22,7 +22,7 @@ export class VotosService  {
 
 
   getItemsByIdVotante(_votanteId: string): Observable<Voto[]> {
-    return this.http.get(config.url + 'votos/' + _votanteId,
+    return this.http.get(config.url + 'voto/' + _votanteId,
     { headers : this.getHeaders()}).map(
       response => {
         return this.bindVotos(response);
@@ -33,7 +33,7 @@ export class VotosService  {
   getItemsByCriteria(_votanteId: string,
   muestraId:    string,
   indicadorId:  string): Observable<Voto[]> {
-    return this.http.get(config.url + 'votos/' + _votanteId + '/' +
+    return this.http.get(config.url + 'voto/' + _votanteId + '/' +
     muestraId + '/' + indicadorId,
     { headers : this.getHeaders()}, ).map(
       response => {
@@ -52,7 +52,7 @@ export class VotosService  {
   private bindVotos(response: any): Voto[] {
     const votos = new Array<Voto>();
     const apiResponse = JSON.parse(response['_body']);
-    if (!apiResponse) {
+    if (apiResponse) {
       for (let index = 0; index < apiResponse.length; index++) {
         const element = apiResponse[index];
         votos.push(new Voto(element._id, element.idVotante,

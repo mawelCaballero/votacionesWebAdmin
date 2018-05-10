@@ -1,3 +1,59 @@
-<p>
-  votos works!
-</p>
+<div class="container mat-elevation-z8">
+
+  <div flex>
+    <h1 class="title">Votos</h1>
+  </div>
+  
+  
+  <div flex>
+
+      <mat-table #table [dataSource]="votos" matSort>
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="votante">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> votante </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idVotante}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="muestra">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> muestra </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idMuestra}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="criterio">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> criterio </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.idIndicador}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="voto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> valoracion </mat-header-cell>
+            <mat-cell  *matCellDef="let element" > 
+                {{element.valoracion}}
+            </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="tipo_votante">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+              <mat-cell  *matCellDef="let element" > 
+                  {{element.tipo_votante}}
+              </mat-cell>
+            </ng-container>
+            
+          <ng-container matColumnDef="detalle">
+              <mat-header-cell *matHeaderCellDef> Detalle </mat-header-cell>
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginator
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [showFirstLastButtons]="true">
+        </mat-paginator>
+  </div>
+  
+
+    
+  </div>

@@ -57,7 +57,7 @@ export class VotantesComponent implements OnInit {
         { 'text': '<p> Esta es una invitación para poder votar en la copa Weedkend 2018</p>.' +
         '<p>Recuerda estos datos a la hora de acceder a la app.</p>' +
          '<p>Recuerda que solo puedes votar una única vez.</p> ' +
-         '<p><ul><li>User: ' + row.user + '</li>' +
+         '<p><ul><li>User: ' + row.email + '</li>' +
          '<li>Password: ' + row.pass + '</li></ul></p>'  ,
           'to': row.email ,
           'subject': 'Weedkend invitacion'}).subscribe(

@@ -66,6 +66,7 @@ import { CategoriaVotanteDetalleComponent } from './components/categoria-votante
 import { CategoriaMuestraDetalleComponent } from './components/categoria-muestra-detalle/categoria-muestra-detalle.component';
 import { CategoriaMuestraService } from './services/categoria-muestra.service';
 import { CategoriaVotanteService } from './services/categoria-votante.service';
+import { VotosService } from './services/votos.service';
 
 const appRoutes: Routes = [
   { path: 'indicadores', component: IndicadoresComponent },
@@ -130,7 +131,8 @@ const appRoutes: Routes = [
     )
   ],
   providers: [IndicadoresService, MuestraService, VotantesService,
-    CategoriaMuestraService, CategoriaVotanteService, EmailService],
+    CategoriaMuestraService, CategoriaVotanteService, EmailService,
+    VotosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
