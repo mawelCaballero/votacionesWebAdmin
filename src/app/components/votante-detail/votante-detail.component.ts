@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { VotantesService } from '../../services/votantes.service';
 import { MuestraService } from '../../services/muestra.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,9 +32,9 @@ export class VotanteDetailComponent implements OnInit {
 
   email: string;
 
-  descripcion: string;
+  voto: boolean;
 
-  voto: string;
+  descripcion: string;
 
   tipos: any[];
 
@@ -69,6 +69,7 @@ export class VotanteDetailComponent implements OnInit {
             this.id = response.id;
             this.descripcion = response.descripcion;
             this.tipo_votante = response.tipo_votante;
+            this.voto = response.voto;
             this.user = response.user;
             this.email = response.email;
             this.pass = response.pass;
@@ -84,7 +85,7 @@ export class VotanteDetailComponent implements OnInit {
       pass: ['',          Validators.compose([Validators.required, Validators.minLength(100)])],
       email: ['',          Validators.compose([Validators.required, Validators.email])],
       descripcion: ['', Validators.compose([Validators.required, Validators.minLength(100)])],
-      voto: [false, Validators.compose([Validators.required])],
+      voto: null,
       tipo_votante: ['', Validators.compose([Validators.required, Validators.minLength(100)])],
       muestras: [],
     });
@@ -120,7 +121,7 @@ export class VotanteDetailComponent implements OnInit {
           'id': this.votanteForm.value.id,
           'user': this.votanteForm.value.user,
           'pass': this.votanteForm.value.pass,
-          'voto': false,
+          'voto': this.votanteForm.value.voto,
           'email': this.votanteForm.value.email,
           'descripcion': this.votanteForm.value.descripcion,
           'tipo_votante': !_.isNil(this.votanteForm.value.tipo_votante)  && !_.isEmpty(this.votanteForm.value.tipo_votante) ?
@@ -142,10 +143,15 @@ export class VotanteDetailComponent implements OnInit {
     }
 
     private transformMuestrasToCode(listMuestras: Muestra[]) {
+
       const codes = new Array<string>();
 
       listMuestras.forEach(element => {
-        codes.push(element['_id']);
+        if (element instanceof Object) {
+          codes.push(element['_id']);
+        } else {
+          codes.push(element);
+        }
       });
 
       return codes;

@@ -22,45 +22,23 @@ export class VotosComponent implements OnInit {
 
   votos = new MatTableDataSource();
 
-  displayedColumns = ['votante', 'muestra', 'criterio', 'voto', 'detalle'];
+  displayedColumns = ['votante', 'muestra', 'criterio', 'voto'];
 
 
-  constructor(private votoService: VotosService,
-    private votanteService: VotantesService,
-    private muestraService: MuestraService,
-    private indicadorService: IndicadoresService,
+  constructor(
+    private votoService: VotosService,
     private router: Router,
-    private growlService: GrowlService,
-    private changeDetectorRefs: ChangeDetectorRef) {
+    private growlService: GrowlService) {
 
     }
 
   ngOnInit() {
-    
     this.votoService.getItems().subscribe(
       response => {
-        console.log('Respuesta');
-        response.forEach( (element) => {
-          console.log('current element', element);
-
-          forkJoin(
-            this.votanteService.getItemById(element.idVotante),
-            this.muestraService.getItemById(element.idMuestra),
-            this.indicadorService.getItemById(element.idIndicador)
-          ).subscribe(([votanteResp, muestraResp, indicadorResp]) => {
-            //  _votos.push(new Voto(element._id, votanteResp.descripcion, muestraResp.descripcion, 
-            //  indicadorResp.descripcion, element.valoracion));
-             this.votos.data.push(new Voto(element._id, votanteResp.descripcion, muestraResp.descripcion,
-               indicadorResp.descripcion, element.valoracion));
-              this.changeDetectorRefs.detectChanges();
-          }
-        );
-        this.votos.paginator = this.paginator;
-        this.votos.sort = this.sort;
-      }
-
-    );
-  });
+          this.votos.data = response;
+          this.votos.paginator = this.paginator;
+          this.votos.sort = this.sort;
+      });
 
 }
 }

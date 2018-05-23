@@ -6,12 +6,14 @@ import { CRUDaction } from '../interfaces/crud-action.interface';
 import { Observable } from 'rxjs/Observable';
 import { config } from '../../app/config';
 import * as _ from 'lodash';
+import 'rxjs/operator/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/catch';
 import { IndicadoresService } from './indicadores.service';
 import { Indicador } from '../model/indicador';
+import { CacheService } from './cache.service';
 @Injectable()
 export class VotantesService implements CRUDaction<Votante> {
 
@@ -20,13 +22,31 @@ export class VotantesService implements CRUDaction<Votante> {
   }
   getItems(): Observable<Votante[]> {
 
-    return this.http.get(config.url + 'votantes', { headers : this.getHeaders() }).map(
+    const url = config.url + 'votantes';
+
+    return this.http.get( url , { headers : this.getHeaders() }).map(
       response => {
         return this.bindVotantes(response);
       }
     );
   }
 
+
+  getItemsByCriteria(user: string, email: string): Observable<Votante[]> {
+
+    if (_.isNil(user) && _.isNil(email)) {
+      return this.getItems();
+    }
+
+    const url = this.generateUrl(user, email);
+
+    return this.http.get(url ,
+    { headers : this.getHeaders()}, ).map(
+      response => {
+        return this.bindVotantes(response);
+      }
+    );
+  }
 
 
   getItemById(_key: string ): Observable<Votante> {
@@ -89,5 +109,17 @@ export class VotantesService implements CRUDaction<Votante> {
       }
     }
     return votantes;
+  }
+
+
+  private generateUrl(user: string, email: string) {
+
+    if (!_.isEmpty(user) && !_.isEmpty(email)) {
+      return config.url + 'votante/' + user + `/${email}`;
+    } else if (!_.isEmpty(user)) {
+      return config.url + 'votante/' + user;
+    } else if (!_.isEmpty(email)) {
+      return config.url + 'votante/' + `${email}`;
+    }
   }
 }

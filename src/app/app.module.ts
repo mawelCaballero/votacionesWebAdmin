@@ -37,6 +37,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatFormFieldModule,
   MatOptionModule,
 } from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatTableModule,
     MatSortModule,
+    MatFormFieldModule,
     MatPaginatorModule,
     MatSlideToggleModule,
     HttpModule,

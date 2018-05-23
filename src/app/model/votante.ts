@@ -17,6 +17,7 @@ export class Votante {
             this.user = user;
             this.email = email;
             this.pass = pass;
+            this.voto = voto;
             this.tipo_votante = tipo_votante;
             this.muestras = muestras;
     }

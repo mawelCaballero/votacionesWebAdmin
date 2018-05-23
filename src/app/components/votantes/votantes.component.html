@@ -4,8 +4,22 @@
       <h1 class="title">Votantes</h1>
     </div>
     
-    
+
     <div flex>
+      <mat-form-field>
+        <input matInput #usuario placeholder="user">
+      </mat-form-field>
+    </div>  
+
+    <div flex>
+      <mat-form-field>
+        <input matInput #correo placeholder="email">
+      </mat-form-field>
+    </div>  
+
+    <div flex>
+        <button class="button-custom" (click)="searchByCriteria(usuario.value, correo.value)">Buscar Votante</button>
+        <button class="button-custom" (click)="reset()">Reinciar busqueda</button>
         <button class="button-custom" (click)="createNewMuestra()">Crear Votante</button>
     </div>  
     

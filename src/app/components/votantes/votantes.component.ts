@@ -20,13 +20,23 @@ export class VotantesComponent implements OnInit {
   displayedColumns = ['id', 'user', 'email', 'descripcion', 'voto', 'tipo_votante', 'detalle'];
 
 
-  votantes = new MatTableDataSource();
+  votantes = new MatTableDataSource();  
 
   constructor(private votanteService: VotantesService,
     private emailService: EmailService,
     private router: Router,
     private growlService: GrowlService) {
       this.votantes = new MatTableDataSource();
+  }
+
+
+  searchByCriteria(usuario: string, correo: string) {
+
+    this.votanteService.getItemsByCriteria(usuario, correo).subscribe
+    (response => {
+      this.votantes = new MatTableDataSource(response);
+    });
+
   }
 
   ngOnInit() {
@@ -51,6 +61,13 @@ export class VotantesComponent implements OnInit {
 
   }
 
+  reset() {
+    this.votanteService.getItems().subscribe(response => {
+      this.votantes.data = response;
+      this.votantes.paginator = this.paginator;
+      this.votantes.sort = this.sort;
+    });
+  }
   sendEmail(row: any) {
     console.log(row);
       this.emailService.sendEmail(
