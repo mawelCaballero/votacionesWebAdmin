@@ -6,7 +6,6 @@ import { CRUDaction } from '../interfaces/crud-action.interface';
 import { Observable } from 'rxjs/Observable';
 import { config } from '../../app/config';
 import * as _ from 'lodash';
-import 'rxjs/operator/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/share';
