@@ -22,23 +22,113 @@ export class VotosComponent implements OnInit {
 
   votos = new MatTableDataSource();
 
-  displayedColumns = ['votante', 'muestra', 'criterio', 'voto'];
+  muestraSelected: any;
+
+  votanteSelected: any;
+
+  muestras: any[];
+
+  votantes: any[];
+
+  displayedColumns = ['votante', 'muestra', 'criterio', 'voto', 'detalle'];
 
 
   constructor(
     private votoService: VotosService,
+    private votanteService: VotantesService,
+    private muestraService: MuestraService,
+    private indicadorService: IndicadoresService,
     private router: Router,
     private growlService: GrowlService) {
+      this.muestraService.getItems().subscribe(response => {
+        this.muestras = response;
+    });
 
+
+   this.votanteService.getItems().subscribe(response => {
+      this.votantes = response;
+  });
     }
 
   ngOnInit() {
+    this.getVotos();
+  }
+
+
+  searchByCriteria() {
+
+    let idVotante;
+    let idMuestra;
+
+    if (this.votanteSelected && this.votanteSelected._id) {
+      idVotante = this.votanteSelected._id;
+    }
+
+    if (this.muestraSelected && this.muestraSelected._id) {
+      idMuestra = this.muestraSelected._id;
+    }
+
+    this.votoService.getItemsByCriteria(idVotante, idMuestra).subscribe
+    (
+      response => {
+        const elements = [];
+        this.votos.data = [];
+        response.forEach( (element) => {
+             const allCalls =  forkJoin(
+               this.votanteService.getItemById(element.idVotante),
+               this.muestraService.getItemById(element.idMuestra),
+               this.indicadorService.getItemById(element.idIndicador)
+             ).map((data: any[]) => {
+               return new Voto(element._id, data[0].user, data[1].descripcion,
+                data[2].descripcion, element.valoracion);
+             });
+             allCalls.subscribe( rescurrentEp  => {
+               const data = this.votos.data;
+               data.push(rescurrentEp);
+               this.votos.data = data;
+               this.votos.paginator = this.paginator;
+               this.votos.sort = this.sort;
+              });
+         });
+       });
+  }
+
+  reset() {
+    this.getVotos();
+  }
+
+  deleteVoto(_key: string) {
+    this.votoService.deleteItem(_key).subscribe(response => {
+      const elements = [];
+        this.votos.data = [];
+        this.getVotos();
+       });
+
+  }
+
+  private getVotos() {
     this.votoService.getItems().subscribe(
       response => {
-          this.votos.data = response;
-          this.votos.paginator = this.paginator;
-          this.votos.sort = this.sort;
+       const elements = [];
+       this.votos.data = [];
+       response.forEach( (element) => {
+            const allCalls =  forkJoin(
+              this.votanteService.getItemById(element.idVotante),
+              this.muestraService.getItemById(element.idMuestra),
+              this.indicadorService.getItemById(element.idIndicador)
+            ).map((data: any[]) => {
+ 
+              return new Voto(element._id, data[0].user, data[1].descripcion,
+               data[2].descripcion, element.valoracion);
+            });
+            allCalls.subscribe( rescurrentEp  => {
+              const data = this.votos.data;
+              data.push(rescurrentEp);
+              this.votos.data = data;
+              this.votos.paginator = this.paginator;
+              this.votos.sort = this.sort;
+             });
+        });
       });
-
-}
+  }
 }

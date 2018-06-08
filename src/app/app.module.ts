@@ -1,6 +1,6 @@
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {NgModule, Injector} from '@angular/core';
 import {GrowlModule} from 'ngx-growl';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
@@ -137,4 +137,10 @@ const appRoutes: Routes = [
     VotosService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  static  AppInjector;
+  constructor(injector: Injector) {
+    AppModule.AppInjector = injector;
+  }
+
+ }

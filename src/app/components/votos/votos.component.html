@@ -4,7 +4,24 @@
     <h1 class="title">Votos</h1>
   </div>
   
-  
+  <div flex *ngIf="votantes">
+        <mat-select  #votante placeholder="votante" [(value)]="votanteSelected">
+          <mat-option *ngFor="let currentvotante of votantes"  [value]="currentvotante">{{currentvotante?.user}}</mat-option>
+        </mat-select>
+  </div>  
+
+  <div flex>
+      <mat-select  #muestra placeholder="muestra" [(value)]="muestraSelected">
+          <mat-option *ngFor="let currentmuestra of muestras"  [value]="currentmuestra">{{currentmuestra?.descripcion}}</mat-option>
+        </mat-select>
+  </div>  
+
+  <div flex>
+      <button class="button-custom" (click)="searchByCriteria()">Buscar Votos</button>
+      <button class="button-custom" (click)="reset()">Reinciar busqueda</button>
+      <button class="button-custom" (click)="createNewMuestra()">Crear Votante</button>
+  </div>  
+
   <div flex>
 
       <mat-table #table [dataSource]="votos" matSort>
@@ -34,6 +51,10 @@
   
           <ng-container matColumnDef="detalle">
               <mat-header-cell *matHeaderCellDef> Detalle </mat-header-cell>
+              <mat-cell *matCellDef="let element"> 
+                <button class="button-custom" (click)="deleteVoto(element._id)">borrar</button> 
+              </mat-cell>
+
           </ng-container>
       
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

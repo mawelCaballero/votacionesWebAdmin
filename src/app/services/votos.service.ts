@@ -7,6 +7,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { VotantesService } from './votantes.service';
 import { MuestraService } from './muestra.service';
 import { IndicadoresService } from './indicadores.service';
+import * as _ from 'lodash';
 
 @Injectable()
 export class VotosService  {
@@ -19,32 +20,18 @@ export class VotosService  {
 
   getItems(): Observable<Voto[]> {
 
-    const resp = this.http.get(config.url + 'voto',
-    { headers : this.getHeaders()}).map(
-      response => {
-        return this.bindVotos(response);
-      }
-    );
-    // .do(collection => {
-    //   const elements = [];
-    //   collection.forEach( (element) => {
-    //     const elementResp =  forkJoin(
-    //       this.votanteService.getItemById(element.idVotante),
-    //       this.muestraService.getItemById(element.idMuestra),
-    //       this.indicadorService.getItemById(element.idIndicador)
-    //     ).map(([votanteResp, muestraResp, indicadorResp]) => {
-    //        return new Voto(element._id, votanteResp.descripcion, muestraResp.descripcion,
-    //          indicadorResp.descripcion, element.valoracion);
-    //     });
-    //     elementResp.subscribe(transformElement => elements.push(transformElement));
-    //     });
-  // });
+  const resp =  this.http.get(config.url + 'voto',
+    { headers : this.getHeaders()}).
+    map( response => {
+      return response.json();
+    });
+     return resp;
 
-  return resp;
   }
 
 
   getItemsByIdVotante(_votanteId: string): Observable<Voto[]> {
+
     return this.http.get(config.url + 'voto/' + _votanteId,
     { headers : this.getHeaders()}).map(
       response => {
@@ -54,10 +41,16 @@ export class VotosService  {
   }
 
   getItemsByCriteria(_votanteId: string,
-  muestraId:    string,
-  indicadorId:  string): Observable<Voto[]> {
-    return this.http.get(config.url + 'voto/' + _votanteId + '/' +
-    muestraId + '/' + indicadorId,
+  muestraId:    string
+  ): Observable<Voto[]> {
+
+    if (_.isNil(_votanteId) && _.isNil(muestraId)) {
+      return this.getItems();
+    }
+
+    const url = this.generateUrl(_votanteId, muestraId);
+
+    return this.http.get(url ,
     { headers : this.getHeaders()}, ).map(
       response => {
         return this.bindVotos(response);
@@ -89,5 +82,16 @@ export class VotosService  {
   private getHeaders() {
     return new Headers(  { 'Accept': 'application/json, text/plain, */*',
     'Content-Type': 'application/json'});
+  }
+
+  private generateUrl(user: string, muestra: string) {
+
+    if (!_.isEmpty(user) && !_.isEmpty(muestra)) {
+      return config.url + 'voto/' + user + `/${muestra}`;
+    } else if (!_.isEmpty(user)) {
+      return config.url + 'voto/' + user;
+    } else if (!_.isEmpty(muestra)) {
+      return config.url + 'voto/' + `${muestra}`;
+    }
   }
 }

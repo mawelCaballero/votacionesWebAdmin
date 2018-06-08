@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/catch';
+import { CacheService } from './cache.service';
 
 @Injectable()
 export class CategoriaVotanteService implements CRUDaction<Categoria> {
