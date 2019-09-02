@@ -16,8 +16,10 @@ import { CacheService } from './cache.service';
 @Injectable()
 export class VotantesService implements CRUDaction<Votante> {
 
-  constructor(private http: Http) {
+  votantesItems: any[];
 
+  constructor(private http: Http) {
+    this.votantesItems = [];
   }
   getItems(): Observable<Votante[]> {
 
@@ -83,7 +85,7 @@ export class VotantesService implements CRUDaction<Votante> {
 
 
   deleteItem(_key: string): Observable<Votante[]> {
-    return this.http.delete(config.url + 'muestras/' + _key,
+    return this.http.delete(config.url + 'user/delete/' + _key,
     {headers : this.getHeaders() } ).map(response => {
       return this.bindVotantes(response);
     });
@@ -94,7 +96,9 @@ export class VotantesService implements CRUDaction<Votante> {
     'Content-Type': 'application/json'});
   }
 
-
+  getVotanteItems(){
+    return this.votantesItems;
+  }
 
   private bindVotantes(response: any): Votante[] {
     const votantes = new Array<Votante>();
@@ -102,6 +106,7 @@ export class VotantesService implements CRUDaction<Votante> {
     if (!_.isNil(apiResponse)) {
       for (let index = 0; index < apiResponse.length; index++) {
         const element = apiResponse[index];
+        this.votantesItems.push(element);
         votantes.push(new Votante(element._id, element.id, element.user, element.pass,
           element.descripcion, element.email,
           element.voto, element.tipo_votante, element.muestras));
@@ -109,6 +114,7 @@ export class VotantesService implements CRUDaction<Votante> {
     }
     return votantes;
   }
+  
 
 
   private generateUrl(user: string, email: string) {
@@ -118,7 +124,7 @@ export class VotantesService implements CRUDaction<Votante> {
     } else if (!_.isEmpty(user)) {
       return config.url + 'votante/' + user;
     } else if (!_.isEmpty(email)) {
-      return config.url + 'votante/' + `${email}`;
+      return config.url + 'votante/emnail/' + `${email}`;
     }
   }
 }

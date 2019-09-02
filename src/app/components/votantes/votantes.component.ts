@@ -5,7 +5,8 @@ import { VotantesService } from '../../services/votantes.service';
 import { Router } from '@angular/router';
 import { EmailService } from '../../services/email.service';
 import { GrowlService } from 'ngx-growl';
-
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-votantes',
@@ -60,6 +61,22 @@ export class VotantesComponent implements OnInit {
     });
 
   }
+
+  convert() {
+
+    var doc = new jsPDF();
+    var col = ["Id", "usuario","email", "password"];
+    var rows = [];
+
+    this.votanteService.getVotanteItems().forEach(element => {
+          var temp = [element.id,element.user, element.email, element.pass];
+          rows.push(temp);
+
+        });
+    doc.autoTable(col, rows);
+    doc.save('Test.pdf');
+  }
+
 
   reset() {
     this.votanteService.getItems().subscribe(response => {
