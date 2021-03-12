@@ -27,7 +27,7 @@
     "angular4-fusioncharts": "^1.0.0",
     "core-js": "^2.4.1",
     "emailjs": "^2.0.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.2.4",
     "lodash": "^4.17.19",
     "ngx-growl": "^1.0.1",
